@@ -6,13 +6,16 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-invisi_phone = "BwxmXwa3Gfz7xFpF5qMvuKSQunimR5HzzMmrb7VPWh4m"
+invisi_phone = "6SywLpwku6C4co4yFZ2YgZPEjhqaCTrdGdczt4njG2ny"
+
+[programs.devnet]
+invisi_phone = "6SywLpwku6C4co4yFZ2YgZPEjhqaCTrdGdczt4njG2ny"
 
 [registry]
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "localnet"
+cluster = "https://api.devnet.solana.com"
 wallet = "~/.config/solana/id.json"
 
 [scripts]

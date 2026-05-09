@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
     const cipher = new RescueCipher(sharedSecret);
 
     const decrypted = cipher.decrypt(
-      [Array.from(new Uint8Array(matches))],
+      matches.map((matchArr: number[]) => new Uint8Array(matchArr)),
       new Uint8Array(nonceBytes)
     );
 

@@ -10,7 +10,7 @@ import * as anchor from "@coral-xyz/anchor";
 import idl from "@/idl/invisi_phone.json";
 
 const PROGRAM_ID = new anchor.web3.PublicKey(
-  "BwxmXwa3Gfz7xFpF5qMvuKSQunimR5HzzMmrb7VPWh4m"
+  "6SywLpwku6C4co4yFZ2YgZPEjhqaCTrdGdczt4njG2ny"
 );
 
 // Seed matches what we used in the Solana program

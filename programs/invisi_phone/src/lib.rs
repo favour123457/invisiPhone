@@ -1,11 +1,12 @@
 use anchor_lang::prelude::*;
 use arcium_anchor::prelude::*;
-
+use arcium_client::idl::arcium::types::CircuitSource;        // add this
+use arcium_client::idl::arcium::types::OffChainCircuitSource;
 
 const COMP_DEF_OFFSET_CHECK_CONTACTS: u32 = comp_def_offset("check_contacts");
 
 
-declare_id!("BwxmXwa3Gfz7xFpF5qMvuKSQunimR5HzzMmrb7VPWh4m");
+declare_id!("6SywLpwku6C4co4yFZ2YgZPEjhqaCTrdGdczt4njG2ny");
 
 
 pub const MAX_REGISTERED_USERS: usize = 50;
@@ -17,8 +18,6 @@ pub const REGISTERED_USERS_SEED: &[u8] = b"registered_users";
 #[arcium_program]
 pub mod invisi_phone {
     use super::*;
-    use arcium_client::idl::arcium::types::CircuitSource;
-    use arcium_client::idl::arcium::types::OffChainCircuitSource;
 
     pub fn init_check_contacts_comp_def(
     ctx: Context<InitCheckContactsCompDef>
@@ -28,10 +27,10 @@ pub mod invisi_phone {
         Some(CircuitSource::OffChain(OffChainCircuitSource {
             source: "https://dwoonbiedwpwwmlknxvn.supabase.co/storage/v1/object/public/arcium1/check_contacts.arcis".to_string(),
             hash: [
-                0xf8, 0x2f, 0x2d, 0xa4, 0x4a, 0x3b, 0x8a, 0x86,
-                0xa3, 0x25, 0x5e, 0xaa, 0x01, 0x9d, 0xcf, 0x25,
-                0x30, 0xdb, 0x79, 0x75, 0xa1, 0x70, 0x92, 0x09,
-                0xa8, 0xdb, 0x00, 0xc9, 0xae, 0x8d, 0x94, 0x61,
+                0x47, 0x9a, 0xc7, 0x96, 0x48, 0x36, 0x93, 0xcc, 
+                0x4e, 0x4d, 0xdc, 0xe0, 0xc0, 0xd7, 0x31, 0x28, 
+                0x7a, 0x29, 0x96, 0x1f, 0xa2, 0xce, 0x20, 0x2e, 
+                0x94, 0x71, 0xa3, 0x2f, 0x11, 0xe7, 0x15, 0x79
             ],
         })),
         None, // finalize_authority
@@ -85,22 +84,39 @@ pub mod invisi_phone {
     pub fn check_contacts(
         ctx: Context<CheckContacts>,
         computation_offset: u64,
-        contacts_ciphertext: [u8; 32],      // encrypted ContactBatch
-        registered_ciphertext: [u8; 32],    // encrypted RegisteredSet
-        pubkey: [u8; 32],                   // user's encryption public key
-        nonce: u128,                        // replay protection
+        // 3 contact addresses
+        c0: [u8; 32],
+        c1: [u8; 32],
+        c2: [u8; 32],
+        // 5 registered user addresses
+        r0: [u8; 32],
+        r1: [u8; 32],
+        r2: [u8; 32],
+        r3: [u8; 32],
+        r4: [u8; 32],
+        // counts
+        contact_count: [u8; 32],
+        reg_count: [u8; 32],
+        pubkey: [u8; 32],
+        nonce: u128,
     ) -> Result<()> {
         ctx.accounts.sign_pda_account.bump = ctx.bumps.sign_pda_account;
 
-        // Package the encrypted inputs for Arcium
-        let args = ArgBuilder::new()
-            .x25519_pubkey(pubkey)                      // result recipient
-            .plaintext_u128(nonce)                      // replay protection
-            .encrypted_u8(contacts_ciphertext)          // user's secret contacts
-            .encrypted_u8(registered_ciphertext)        // registered users (encrypted)
+       let args = ArgBuilder::new()
+            .x25519_pubkey(pubkey)
+            .plaintext_u128(nonce)
+            .encrypted_u128(c0)
+            .encrypted_u128(c1)
+            .encrypted_u128(c2)
+            .encrypted_u128(r0)
+            .encrypted_u128(r1)
+            .encrypted_u128(r2)
+            .encrypted_u128(r3)
+            .encrypted_u128(r4)
+            .encrypted_u8(contact_count)
+            .encrypted_u8(reg_count)
             .build();
 
-        // Send to Arcium MXE — "when done, call check_contacts_callback"
         queue_computation(
             ctx.accounts,
             computation_offset,
@@ -110,8 +126,8 @@ pub mod invisi_phone {
                 &ctx.accounts.mxe_account,
                 &[],
             )?],
-            1,  // one output: the matches array [u8; 10]
-            0,  // standard priority
+            1,
+            0,
         )?;
 
         Ok(())
@@ -134,8 +150,13 @@ pub mod invisi_phone {
         };
 
 
+        let mut matches_arr = [[0u8; 32]; 3];
+        for i in 0..3 {
+            matches_arr[i] = o.ciphertexts[i];
+        }
+
         emit!(ContactMatchEvent {
-            matches: o.ciphertexts[0],  
+            matches: matches_arr,
             nonce: o.nonce.to_le_bytes(),
         });
 
@@ -213,21 +234,21 @@ pub struct CheckContacts<'info> {
         mut,
         address = derive_mempool_pda!(mxe_account, ErrorCode::ClusterNotSet)
     )]
- 
+    /// CHECK: mempool_account, checked by the arcium program.
     pub mempool_account: UncheckedAccount<'info>,
 
     #[account(
         mut,
         address = derive_execpool_pda!(mxe_account, ErrorCode::ClusterNotSet)
     )]
-
+    /// CHECK: executing_pool, checked by the arcium program.
     pub executing_pool: UncheckedAccount<'info>,
 
     #[account(
         mut,
         address = derive_comp_pda!(computation_offset, mxe_account, ErrorCode::ClusterNotSet)
     )]
- 
+    /// CHECK: computation_account, checked by the arcium program.
     pub computation_account: UncheckedAccount<'info>,
 
     #[account(
@@ -271,7 +292,7 @@ pub struct CheckContactsCallback<'info> {
     #[account(address = derive_mxe_pda!())]
     pub mxe_account: Account<'info, MXEAccount>,
 
-   
+    /// CHECK: computation_account, checked by arcium program.
     pub computation_account: UncheckedAccount<'info>,
 
     #[account(
@@ -329,7 +350,7 @@ pub struct UserRegisteredEvent {
 
 #[event]
 pub struct ContactMatchEvent {
-    pub matches: [u8; 32],      // encrypted match results [1,0,1,0...]
+    pub matches: [[u8; 32]; 3],      // encrypted match results for 3 contacts
     pub nonce: [u8; 16],        // needed by frontend to decrypt
 }
 

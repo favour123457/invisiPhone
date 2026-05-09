@@ -1,5 +1,5 @@
 {
-  "address": "BwxmXwa3Gfz7xFpF5qMvuKSQunimR5HzzMmrb7VPWh4m",
+  "address": "6SywLpwku6C4co4yFZ2YgZPEjhqaCTrdGdczt4njG2ny",
   "metadata": {
     "name": "invisi_phone",
     "version": "0.1.0",
@@ -104,7 +104,7 @@
           "type": "u64"
         },
         {
-          "name": "contacts_ciphertext",
+          "name": "c0",
           "type": {
             "array": [
               "u8",
@@ -113,7 +113,79 @@
           }
         },
         {
-          "name": "registered_ciphertext",
+          "name": "c1",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "c2",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "r0",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "r1",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "r2",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "r3",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "r4",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "contact_count",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "reg_count",
           "type": {
             "array": [
               "u8",
@@ -566,7 +638,7 @@
                 "generics": [
                   {
                     "kind": "const",
-                    "value": "10"
+                    "value": "3"
                   }
                 ]
               }
@@ -855,8 +927,13 @@
             "name": "matches",
             "type": {
               "array": [
-                "u8",
-                32
+                {
+                  "array": [
+                    "u8",
+                    32
+                  ]
+                },
+                3
               ]
             }
           },

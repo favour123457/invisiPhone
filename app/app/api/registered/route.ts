@@ -6,13 +6,13 @@ import { NextResponse } from "next/server";
 import * as anchor from "@coral-xyz/anchor";
 import {
   getMXEPublicKey,
-  getMXEAccAddress,
 } from "@arcium-hq/client";
 import { Connection, PublicKey } from "@solana/web3.js";
+import bs58 from "bs58";
 import idl from "@/idl/invisi_phone.json";
 
 const PROGRAM_ID = new PublicKey(
-  "BwxmXwa3Gfz7xFpF5qMvuKSQunimR5HzzMmrb7VPWh4m"
+  "6SywLpwku6C4co4yFZ2YgZPEjhqaCTrdGdczt4njG2ny"
 );
 const REGISTERED_USERS_SEED = Buffer.from("registered_users");
 const ENDPOINT = "https://api.devnet.solana.com";
@@ -53,10 +53,9 @@ export async function GET() {
       .registeredUsers.fetch(registeredUsersPDA);
 
     // Convert registered users to base58 wallet strings
-    const bs58 = require("bs58");
     const registeredWallets: string[] = (registeredAccount.users as number[][])
       .slice(0, registeredAccount.count)
-      .map((bytes: number[]) => bs58.encode(Buffer.from(bytes)));
+      .map((bytes: number[]) => bs58.encode(new Uint8Array(bytes)));
 
     return NextResponse.json({
       mxePublicKeyHex: Buffer.from(mxePublicKey).toString("hex"),

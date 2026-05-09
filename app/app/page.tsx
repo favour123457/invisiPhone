@@ -4,7 +4,7 @@
 // Main page — shows Register tab or Discover tab
 // Switches to Discover automatically after registration
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import RegisterPanel from "@/components/RegisterPanel";
@@ -15,6 +15,13 @@ type Tab = "register" | "discover";
 export default function Home() {
   const { publicKey } = useWallet();
   const [tab, setTab] = useState<Tab>("register");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null; // Prevent hydration mismatch
 
   return (
     <main className="min-h-screen bg-zinc-900 text-white">
@@ -54,11 +61,10 @@ export default function Home() {
           <button
             key={t}
             onClick={() => setTab(t)}
-            className={`flex-1 py-3 text-sm font-medium capitalize transition-colors ${
-              tab === t
+            className={`flex-1 py-3 text-sm font-medium capitalize transition-colors ${tab === t
                 ? "text-white border-b-2 border-violet-500"
                 : "text-zinc-500 hover:text-zinc-300"
-            }`}
+              }`}
           >
             {t === "register" ? "① Join" : "② Discover"}
           </button>
