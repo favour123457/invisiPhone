@@ -62,8 +62,8 @@ export default function Home() {
             key={t}
             onClick={() => setTab(t)}
             className={`flex-1 py-3 text-sm font-medium capitalize transition-colors ${tab === t
-                ? "text-white border-b-2 border-violet-500"
-                : "text-zinc-500 hover:text-zinc-300"
+              ? "text-white border-b-2 border-violet-500"
+              : "text-zinc-500 hover:text-zinc-300"
               }`}
           >
             {t === "register" ? "① Join" : "② Discover"}

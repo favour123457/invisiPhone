@@ -32,7 +32,7 @@ async function main() {
     );
 
     // Derive comp def account
-    const COMP_DEF_OFFSET = 4010966309;
+    const COMP_DEF_OFFSET = 562783596;
     const compDefBuf = Buffer.alloc(4);
     compDefBuf.writeUInt32LE(COMP_DEF_OFFSET, 0);
     const compDefAccount = anchor.web3.PublicKey.findProgramAddressSync(
@@ -74,8 +74,8 @@ async function main() {
 
     // Step 2: Init computation definition with all required accounts
     try {
-        console.log("Calling initCheckContactsCompDef...");
-        const tx2 = await program.methods.initCheckContactsCompDef().accountsPartial({
+        console.log("Calling initCheckContactsV2CompDef...");
+        const tx2 = await program.methods.initCheckContactsV2CompDef().accountsPartial({
             payer: provider.wallet.publicKey,
             mxeAccount: mxeAccount,
             compDefAccount: compDefAccount,

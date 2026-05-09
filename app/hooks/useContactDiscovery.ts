@@ -12,7 +12,7 @@ const PROGRAM_ID = new anchor.web3.PublicKey(
   "6SywLpwku6C4co4yFZ2YgZPEjhqaCTrdGdczt4njG2ny"
 );
 const CLUSTER_OFFSET = 456;
-const COMP_DEF_OFFSET = 4010966309; // sha256("check_contacts")[0..4] as u32 LE
+const COMP_DEF_OFFSET = 562783596; // sha256("check_contacts_v2")[0..4] as u32 LE
 
 // All seeds from arcium-client/src/pda.rs
 const getMXEAccAddress = (programId: anchor.web3.PublicKey) => {
@@ -177,6 +177,10 @@ export function useContactDiscovery() {
         nonceLE,
       } = await encryptRes.json();
 
+      console.log("DEBUG contacts sent:", contactSlice);
+      console.log("DEBUG registered received:", registeredWallets);
+      console.log("DEBUG same wallet test:", contactSlice[0] === registeredWallets[0]);
+
       // Convert arrays to proper format for Anchor
       const c0Array = Array.from(c0 as number[]);
       const c1Array = Array.from(c1 as number[]);
@@ -223,14 +227,14 @@ export function useContactDiscovery() {
 
       // Debug: Check available methods
       console.log("Available methods:", Object.keys(program.methods));
-      console.log("Trying to call: checkContacts");
+      console.log("Trying to call: checkContactsV2");
 
       // Build and send the transaction
       const nonceBigInt = BigInt("0x" + Buffer.from(nonceLE).reverse().toString("hex"));
       console.log("Constructed nonce BigInt:", nonceBigInt.toString());
 
       const tx = await program.methods
-        .checkContacts(
+        .checkContactsV2(
           computationOffset,
           c0Array,
           c1Array,
@@ -314,7 +318,7 @@ export function useContactDiscovery() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           matches: Array.from(matchEvent.matches),
-          nonceBytes: nonceLE,
+          nonceBytes: matchEvent.nonce,
           privateKey,
           mxePublicKeyHex,
         }),

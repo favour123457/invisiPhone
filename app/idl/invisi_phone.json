@@ -8,16 +8,16 @@
   },
   "instructions": [
     {
-      "name": "check_contacts",
+      "name": "check_contacts_v2",
       "discriminator": [
-        57,
-        148,
-        42,
-        107,
-        8,
-        233,
-        87,
-        253
+        63,
+        192,
+        108,
+        178,
+        149,
+        210,
+        200,
+        115
       ],
       "accounts": [
         {
@@ -209,16 +209,16 @@
       ]
     },
     {
-      "name": "check_contacts_callback",
+      "name": "check_contacts_v2_callback",
       "discriminator": [
-        135,
-        224,
-        132,
-        10,
-        124,
-        11,
-        183,
-        200
+        38,
+        236,
+        207,
+        235,
+        52,
+        161,
+        19,
+        149
       ],
       "accounts": [
         {
@@ -253,7 +253,7 @@
                   "kind": "type",
                   "type": {
                     "defined": {
-                      "name": "CheckContactsOutput"
+                      "name": "CheckContactsV2Output"
                     }
                   }
                 }
@@ -264,16 +264,16 @@
       ]
     },
     {
-      "name": "init_check_contacts_comp_def",
+      "name": "init_check_contacts_v2_comp_def",
       "discriminator": [
-        114,
-        182,
-        22,
-        192,
-        170,
-        159,
-        84,
-        47
+        172,
+        202,
+        212,
+        20,
+        185,
+        43,
+        105,
+        112
       ],
       "accounts": [
         {
@@ -622,7 +622,7 @@
       }
     },
     {
-      "name": "CheckContactsOutput",
+      "name": "CheckContactsV2Output",
       "docs": [
         "The output of the callback instruction. Provided as a struct with ordered fields",
         "as anchor does not support tuples and tuple structs yet."

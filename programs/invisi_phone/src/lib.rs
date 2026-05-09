@@ -3,7 +3,7 @@ use arcium_anchor::prelude::*;
 use arcium_client::idl::arcium::types::CircuitSource;        // add this
 use arcium_client::idl::arcium::types::OffChainCircuitSource;
 
-const COMP_DEF_OFFSET_CHECK_CONTACTS: u32 = comp_def_offset("check_contacts");
+const COMP_DEF_OFFSET_CHECK_CONTACTS: u32 = comp_def_offset("check_contacts_v2");
 
 
 declare_id!("6SywLpwku6C4co4yFZ2YgZPEjhqaCTrdGdczt4njG2ny");
@@ -19,17 +19,17 @@ pub const REGISTERED_USERS_SEED: &[u8] = b"registered_users";
 pub mod invisi_phone {
     use super::*;
 
-    pub fn init_check_contacts_comp_def(
-    ctx: Context<InitCheckContactsCompDef>
+    pub fn init_check_contacts_v2_comp_def(
+    ctx: Context<InitCheckContactsV2CompDef>
 ) -> Result<()> {
     init_comp_def(
         ctx.accounts,
         Some(CircuitSource::OffChain(OffChainCircuitSource {
-            source: "https://dwoonbiedwpwwmlknxvn.supabase.co/storage/v1/object/public/arcium1/check_contacts.arcis".to_string(),
+            source: "https://dwoonbiedwpwwmlknxvn.supabase.co/storage/v1/object/public/arcium1/check_contacts_v2.arcis".to_string(),
             hash: [
-                0x47, 0x9a, 0xc7, 0x96, 0x48, 0x36, 0x93, 0xcc, 
-                0x4e, 0x4d, 0xdc, 0xe0, 0xc0, 0xd7, 0x31, 0x28, 
-                0x7a, 0x29, 0x96, 0x1f, 0xa2, 0xce, 0x20, 0x2e, 
+                0x47, 0x9a, 0xc7, 0x96, 0x48, 0x36, 0x93, 0xcc,
+                0x4e, 0x4d, 0xdc, 0xe0, 0xc0, 0xd7, 0x31, 0x28,
+                0x7a, 0x29, 0x96, 0x1f, 0xa2, 0xce, 0x20, 0x2e,
                 0x94, 0x71, 0xa3, 0x2f, 0x11, 0xe7, 0x15, 0x79
             ],
         })),
@@ -81,8 +81,8 @@ pub mod invisi_phone {
     }
 
 
-    pub fn check_contacts(
-        ctx: Context<CheckContacts>,
+    pub fn check_contacts_v2(
+        ctx: Context<CheckContactsV2>,
         computation_offset: u64,
         // 3 contact addresses
         c0: [u8; 32],
@@ -121,7 +121,7 @@ pub mod invisi_phone {
             ctx.accounts,
             computation_offset,
             args,
-            vec![CheckContactsCallback::callback_ix(
+            vec![CheckContactsV2Callback::callback_ix(
                 computation_offset,
                 &ctx.accounts.mxe_account,
                 &[],
@@ -134,10 +134,10 @@ pub mod invisi_phone {
     }
 
  
-    #[arcium_callback(encrypted_ix = "check_contacts")]
-    pub fn check_contacts_callback(
-        ctx: Context<CheckContactsCallback>,
-        output: SignedComputationOutputs<CheckContactsOutput>,
+    #[arcium_callback(encrypted_ix = "check_contacts_v2")]
+    pub fn check_contacts_v2_callback(
+        ctx: Context<CheckContactsV2Callback>,
+        output: SignedComputationOutputs<CheckContactsV2Output>,
     ) -> Result<()> {
 
 
@@ -145,7 +145,7 @@ pub mod invisi_phone {
             &ctx.accounts.cluster_account,
             &ctx.accounts.computation_account,
         ) {
-            Ok(CheckContactsOutput { field_0 }) => field_0,
+            Ok(CheckContactsV2Output { field_0 }) => field_0,
             Err(_) => return Err(ErrorCode::AbortedComputation.into()),
         };
 
@@ -210,10 +210,10 @@ pub struct RegisterUser<'info> {
 }
 
 
-#[queue_computation_accounts("check_contacts", payer)]
+#[queue_computation_accounts("check_contacts_v2", payer)]
 #[derive(Accounts)]
 #[instruction(computation_offset: u64)]
-pub struct CheckContacts<'info> {
+pub struct CheckContactsV2<'info> {
     #[account(mut)]
     pub payer: Signer<'info>,
 
@@ -279,9 +279,9 @@ pub struct CheckContacts<'info> {
 }
 
 
-#[callback_accounts("check_contacts")]
+#[callback_accounts("check_contacts_v2")]
 #[derive(Accounts)]
-pub struct CheckContactsCallback<'info> {
+pub struct CheckContactsV2Callback<'info> {
     pub arcium_program: Program<'info, Arcium>,
 
     #[account(
@@ -306,9 +306,9 @@ pub struct CheckContactsCallback<'info> {
 }
 
 // Accounts for init_check_contacts_comp_def (run once at deploy)
-#[init_computation_definition_accounts("check_contacts", payer)]
+#[init_computation_definition_accounts("check_contacts_v2", payer)]
 #[derive(Accounts)]
-pub struct InitCheckContactsCompDef<'info> {
+pub struct InitCheckContactsV2CompDef<'info> {
     #[account(mut)]
     pub payer: Signer<'info>,
 

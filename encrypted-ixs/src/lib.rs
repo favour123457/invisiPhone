@@ -18,7 +18,7 @@ mod circuits {
     }
 
     #[instruction]
-    pub fn check_contacts(input: Enc<Shared, ContactsInput>) -> Enc<Shared, [u8; 3]> {
+    pub fn check_contacts_v2(input: Enc<Shared, ContactsInput>) -> Enc<Shared, [u8; 3]> {
         let d = input.to_arcis();
         let contacts = [d.c0, d.c1, d.c2];
         let registered = [d.r0, d.r1, d.r2, d.r3, d.r4];
