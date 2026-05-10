@@ -31,8 +31,8 @@ export function useRegister() {
   const [status, setStatus] = useState<RegisterStatus>("idle");
   const [error, setError] = useState<string | null>(null);
 
-  const register = async () => {
-    if (!publicKey || !wallet) return;
+  const register = async (): Promise<RegisterStatus> => {
+    if (!publicKey || !wallet) return "idle";
     setError(null);
     setStatus("sending");
 
@@ -77,15 +77,18 @@ export function useRegister() {
 
       console.log("Registration tx:", tx);
       setStatus("done");
+      return "done";
     } catch (err: any) {
       console.error("Registration error:", err);
 
       // Check if it's the AlreadyRegistered error from our Solana program
       if (err?.message?.includes("AlreadyRegistered")) {
         setStatus("already_registered");
+        return "already_registered";
       } else {
         setStatus("error");
         setError(err?.message || "Unknown error");
+        return "error";
       }
     }
   };

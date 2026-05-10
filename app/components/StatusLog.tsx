@@ -1,133 +1,69 @@
 "use client";
 
-// components/StatusLog.tsx
-// Shows a live step-by-step log during the contact discovery process
-// This is the "proof" that privacy is being maintained at each step
-
 import { DiscoveryStep } from "@/hooks/useContactDiscovery";
 
-interface StatusLogProps {
-  step: DiscoveryStep;
-}
-
-// Each step has a label and a description of what's happening privacy-wise
-const STEPS: {
-  key: DiscoveryStep;
-  label: string;
-  detail: string;
-}[] = [
-  {
-    key: "generating_keypair",
-    label: "Generating your encryption keypair",
-    detail: "Your private key is created in this browser. It never leaves your device.",
-  },
-  {
-    key: "fetching_registered",
-    label: "Fetching registered users from Solana",
-    detail: "Reading the public on-chain registry — no private data here.",
-  },
-  {
-    key: "encrypting_contacts",
-    label: "Encrypting your contact list",
-    detail: "Your contacts are encrypted locally. The platform will never see them.",
-  },
-  {
-    key: "encrypting_registered",
-    label: "Encrypting the registered set",
-    detail: "Both sides of the comparison are encrypted before leaving your browser.",
-  },
-  {
-    key: "sending_transaction",
-    label: "Sending encrypted data to Solana",
-    detail: "Only encrypted blobs hit the blockchain. No plaintext wallet addresses.",
-  },
-  {
-    key: "waiting_arcium",
-    label: "Arcium MXE computing privately...",
-    detail: "Arx nodes are comparing encrypted sets. No single node sees your contacts.",
-  },
-  {
-    key: "decrypting",
-    label: "Decrypting result with your private key",
-    detail: "Only you can read this result. Not Solana. Not Arcium. Not us.",
-  },
-  {
-    key: "done",
-    label: "Done — matches revealed privately",
-    detail: "The platform learned nothing about your non-matching contacts.",
-  },
+const STEPS: { key: DiscoveryStep; label: string; detail: string }[] = [
+  { key: "fetching_registered", label: "Fetching registered users", detail: "Reading on-chain registry — no private data exposed" },
+  { key: "encrypting_contacts", label: "Encrypting your contacts locally", detail: "Private key generated in your browser. Never transmitted." },
+  { key: "sending_transaction", label: "Submitting to Solana", detail: "Only encrypted ciphertexts hit the chain — no plaintext" },
+  { key: "waiting_arcium", label: "Arcium MXE computing privately", detail: "Arx nodes compare encrypted sets. No single node sees your contacts." },
+  { key: "decrypting", label: "Decrypting result with your key", detail: "Only you can read this. Not Solana. Not Arcium." },
+  { key: "done", label: "Complete", detail: "The platform learned nothing about your non-matching contacts" },
 ];
 
-type StepStatus = "waiting" | "active" | "done";
-
-function getStepStatus(stepKey: DiscoveryStep, currentStep: DiscoveryStep): StepStatus {
-  const stepOrder = STEPS.map((s) => s.key);
-  const stepIdx = stepOrder.indexOf(stepKey);
-  const currentIdx = stepOrder.indexOf(currentStep);
-
-  if (currentStep === "idle" || currentStep === "error") return "waiting";
-  if (stepIdx < currentIdx) return "done";
-  if (stepIdx === currentIdx) return "active";
+function getStatus(key: DiscoveryStep, current: DiscoveryStep): "done" | "active" | "waiting" {
+  const order = STEPS.map(s => s.key);
+  const ki = order.indexOf(key), ci = order.indexOf(current);
+  if (current === "idle" || current === "error") return "waiting";
+  if (ki < ci) return "done";
+  if (ki === ci) return "active";
   return "waiting";
 }
 
-export default function StatusLog({ step }: StatusLogProps) {
+export default function StatusLog({ step }: { step: DiscoveryStep }) {
   if (step === "idle") return null;
-
   return (
-    <div className="mt-6 rounded-xl border border-zinc-800 bg-zinc-950 p-4">
-      <p className="text-xs text-zinc-500 uppercase tracking-widest mb-4">
-        Privacy Log
-      </p>
-
-      <div className="space-y-3">
-        {STEPS.map((s) => {
-          const status = getStepStatus(s.key, step);
-
-          return (
-            <div key={s.key} className="flex items-start gap-3">
-              {/* Status icon */}
-              <div className="mt-0.5 shrink-0">
-                {status === "done" && (
-                  <span className="text-green-400 text-sm">✓</span>
-                )}
-                {status === "active" && (
-                  <span className="text-violet-400 text-sm animate-pulse">◉</span>
-                )}
-                {status === "waiting" && (
-                  <span className="text-zinc-700 text-sm">○</span>
-                )}
+    <>
+      <style>{`
+        @keyframes pulse-dot { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+        @keyframes fadeIn { from { opacity:0; transform: translateY(4px); } to { opacity:1; transform: translateY(0); } }
+      `}</style>
+      <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 16, padding: "20px 24px", marginBottom: 24 }}>
+        <p style={{ fontSize: 11, color: "rgba(255,255,255,0.25)", fontFamily: "'JetBrains Mono', monospace", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 20 }}>Privacy log</p>
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          {STEPS.map(s => {
+            const status = getStatus(s.key, step);
+            return (
+              <div key={s.key} style={{ display: "flex", gap: 14, alignItems: "flex-start", animation: status === "active" ? "fadeIn 0.3s ease" : undefined }}>
+                {/* Indicator */}
+                <div style={{ flexShrink: 0, width: 18, paddingTop: 2, display: "flex", justifyContent: "center" }}>
+                  {status === "done" && (
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                      <circle cx="7" cy="7" r="6" fill="rgba(34,197,94,0.15)" stroke="rgba(34,197,94,0.4)" strokeWidth="0.8" />
+                      <path d="M4 7l2 2 4-4" stroke="#4ade80" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  )}
+                  {status === "active" && (
+                    <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#7c3aed", marginTop: 3, animation: "pulse-dot 1.2s ease infinite" }} />
+                  )}
+                  {status === "waiting" && (
+                    <div style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.1)", marginTop: 4 }} />
+                  )}
+                </div>
+                <div>
+                  <p style={{
+                    fontSize: 14, fontWeight: 500, lineHeight: 1.4, marginBottom: status !== "waiting" ? 3 : 0,
+                    color: status === "done" ? "rgba(255,255,255,0.4)" : status === "active" ? "white" : "rgba(255,255,255,0.18)"
+                  }}>{s.label}</p>
+                  {status !== "waiting" && (
+                    <p style={{ fontSize: 12, color: "rgba(255,255,255,0.25)", lineHeight: 1.5, fontFamily: "'JetBrains Mono', monospace" }}>{s.detail}</p>
+                  )}
+                </div>
               </div>
-
-              {/* Step text */}
-              <div>
-                <p
-                  className={`text-sm font-medium ${
-                    status === "done"
-                      ? "text-zinc-400"
-                      : status === "active"
-                      ? "text-white"
-                      : "text-zinc-700"
-                  }`}
-                >
-                  {s.label}
-                </p>
-                {status !== "waiting" && (
-                  <p className="text-xs text-zinc-600 mt-0.5">{s.detail}</p>
-                )}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {step === "error" && (
-        <div className="mt-4 rounded-lg bg-red-950 border border-red-800 p-3">
-          <p className="text-red-400 text-sm">
-            Something went wrong. Check the console for details.
-          </p>
+            );
+          })}
         </div>
-      )}
-    </div>
+      </div>
+    </>
   );
 }
