@@ -1,6 +1,4 @@
-// app/api/registered/route.ts
-// Fetches registered users + MXE public key from Solana
-// Runs server-side so @arcium-hq/client and @coral-xyz/anchor work fine
+
 
 import { NextResponse } from "next/server";
 import * as anchor from "@coral-xyz/anchor";
@@ -24,7 +22,7 @@ export async function GET() {
     // Create a read-only provider (no wallet needed for reading)
     const provider = new anchor.AnchorProvider(
       connection,
-      {} as any,
+      {} as anchor.Wallet,
       { commitment: "confirmed" }
     );
     anchor.setProvider(provider);
@@ -49,7 +47,7 @@ export async function GET() {
       PROGRAM_ID
     );
 
-    const registeredAccount = await (program.account as any)
+    const registeredAccount = await (program.account as Record<string, { fetch: (pda: PublicKey) => Promise<{ users: number[][]; count: number }> }>)
       .registeredUsers.fetch(registeredUsersPDA);
 
     // Convert registered users to base58 wallet strings
@@ -63,10 +61,11 @@ export async function GET() {
       count: registeredAccount.count,
     });
 
-  } catch (err: any) {
+  } catch (err) {
     console.error("Registered API error:", err);
+    const error = err as Error;
     return NextResponse.json(
-      { error: err.message || "Failed to fetch registered users" },
+      { error: error.message || "Failed to fetch registered users" },
       { status: 500 }
     );
   }

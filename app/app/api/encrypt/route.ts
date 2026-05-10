@@ -63,10 +63,11 @@ export async function POST(req: NextRequest) {
       privateKey: Array.from(privateKey),
       nonceLE: Array.from(nonceBytes),
     });
-  } catch (err: any) {
+  } catch (err) {
     console.error("Encrypt API error:", err);
+    const error = err as Error;
     return NextResponse.json(
-      { error: err.message || "Encryption failed" },
+      { error: error.message || "Encryption failed" },
       { status: 500 }
     );
   }

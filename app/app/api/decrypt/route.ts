@@ -17,9 +17,10 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ decrypted: decrypted.map(Number) });
 
-  } catch (err: any) {
+  } catch (err) {
+    const error = err as Error;
     return NextResponse.json(
-      { error: err.message || "Decryption failed" },
+      { error: error.message || "Decryption failed" },
       { status: 500 }
     );
   }
