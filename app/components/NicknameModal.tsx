@@ -102,10 +102,10 @@ export default function NicknameModal({ wallets, onDone }: NicknameModalProps) {
 
                     {!saved && (
                         <>
-                            <p style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 20, textAlign: "center", marginBottom: 6 }}>
+                            <p style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 700, fontSize: 24, textAlign: "center", marginBottom: 8, letterSpacing: "-0.02em" }}>
                                 Save this contact?
                             </p>
-                            <p style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", textAlign: "center", marginBottom: 24, lineHeight: 1.6 }}>
+                            <p style={{ fontSize: 15, color: "rgba(255,255,255,0.45)", textAlign: "center", marginBottom: 28, lineHeight: 1.6 }}>
                                 Give them a nickname so you&apos;ll recognise them later.
                             </p>
 
@@ -118,9 +118,9 @@ export default function NicknameModal({ wallets, onDone }: NicknameModalProps) {
                                 placeholder="e.g. Alice, Bob, CryptoFriend..."
                                 maxLength={32}
                                 style={{
-                                    width: "100%", padding: "12px 16px", borderRadius: 12, marginBottom: 12,
+                                    width: "100%", padding: "14px 18px", borderRadius: 14, marginBottom: 14,
                                     background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)",
-                                    color: "white", fontSize: 15, fontFamily: "'DM Sans', sans-serif", outline: "none",
+                                    color: "white", fontSize: 16, fontFamily: "'Inter', sans-serif", outline: "none",
                                 }}
                                 onFocus={e => { e.target.style.borderColor = "rgba(124,58,237,0.5)"; }}
                                 onBlur={e => { e.target.style.borderColor = "rgba(255,255,255,0.1)"; }}
@@ -130,11 +130,12 @@ export default function NicknameModal({ wallets, onDone }: NicknameModalProps) {
                                 onClick={handleSave}
                                 disabled={!name.trim()}
                                 style={{
-                                    width: "100%", padding: "13px 0", borderRadius: 12, border: "none",
+                                    width: "100%", padding: "16px 0", borderRadius: 14, border: "none",
                                     background: name.trim() ? "#7c3aed" : "rgba(255,255,255,0.06)",
                                     color: name.trim() ? "white" : "rgba(255,255,255,0.25)",
-                                    fontSize: 15, fontWeight: 600, fontFamily: "'DM Sans', sans-serif",
-                                    cursor: name.trim() ? "pointer" : "not-allowed", marginBottom: 10, transition: "all 0.15s",
+                                    fontSize: 16, fontWeight: 700, fontFamily: "'Inter', sans-serif",
+                                    cursor: name.trim() ? "pointer" : "not-allowed", marginBottom: 12, transition: "all 0.2s",
+                                    boxShadow: name.trim() ? "0 4px 12px rgba(124,58,237,0.2)" : "none",
                                 }}
                             >
                                 Save friend
@@ -143,9 +144,9 @@ export default function NicknameModal({ wallets, onDone }: NicknameModalProps) {
                             <button
                                 onClick={handleSkip}
                                 style={{
-                                    width: "100%", padding: "11px 0", borderRadius: 12,
+                                    width: "100%", padding: "14px 0", borderRadius: 14,
                                     background: "transparent", border: "1px solid rgba(255,255,255,0.07)",
-                                    color: "rgba(255,255,255,0.3)", fontSize: 13, fontFamily: "'DM Sans', sans-serif", cursor: "pointer",
+                                    color: "rgba(255,255,255,0.35)", fontSize: 14, fontWeight: 500, fontFamily: "'Inter', sans-serif", cursor: "pointer",
                                 }}
                             >
                                 {index + 1 >= pending.length ? "Skip, I'm done" : "Skip this one →"}

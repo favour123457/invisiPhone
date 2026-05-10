@@ -34,28 +34,45 @@ export default function MatchResults({ result, onSaveFriends }: MatchResultsProp
       <div style={{ animation: "slideUp 0.35s ease" }}>
 
         {/* Summary card */}
-        <div style={{ background: "rgba(124,58,237,0.07)", border: "1px solid rgba(124,58,237,0.18)", borderRadius: 16, padding: "20px 24px", marginBottom: 16 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
+        <div style={{
+          background: "rgba(124,58,237,0.08)",
+          border: "1px solid rgba(124,58,237,0.2)",
+          borderRadius: 24,
+          padding: "32px 40px",
+          marginBottom: 24,
+          position: "relative",
+          overflow: "hidden"
+        }}>
+          {/* Subtle shimmer overlay */}
+          <div style={{
+            position: "absolute", inset: 0,
+            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent)",
+            backgroundSize: "200% 100%",
+            animation: "shimmer 3s infinite linear",
+            pointerEvents: "none"
+          }} />
+
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 32, position: "relative" }}>
             <div>
-              <p style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: 36, letterSpacing: "-0.03em", lineHeight: 1 }}>{totalMatches}</p>
-              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", marginTop: 4 }}>
+              <p className="gradient-text" style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 800, fontSize: 64, letterSpacing: "-0.04em", lineHeight: 1 }}>{totalMatches}</p>
+              <p style={{ fontSize: 16, color: "rgba(255,255,255,0.45)", marginTop: 8, fontWeight: 500 }}>
                 match{totalMatches !== 1 ? "es" : ""} from {totalContacts} checked
               </p>
             </div>
-            <div style={{ background: "rgba(124,58,237,0.15)", border: "1px solid rgba(124,58,237,0.25)", borderRadius: 100, padding: "4px 12px", display: "flex", alignItems: "center", gap: 6 }}>
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
-              <span style={{ fontSize: 11, color: "#a78bfa", fontFamily: "'JetBrains Mono', monospace" }}>PRIVATE</span>
+            <div style={{ background: "rgba(124,58,237,0.15)", border: "1px solid rgba(124,58,237,0.3)", borderRadius: 100, padding: "8px 16px", display: "flex", alignItems: "center", gap: 10, boxShadow: "0 4px 12px rgba(124,58,237,0.2)" }}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
+              <span style={{ fontSize: 13, color: "#a78bfa", fontFamily: "'Space Mono', monospace", fontWeight: 700, letterSpacing: "0.05em" }}>PRIVATE DISCOVERY</span>
             </div>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-            <div style={{ background: "rgba(255,255,255,0.04)", borderRadius: 10, padding: "12px 14px" }}>
-              <p style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", marginBottom: 4, fontFamily: "'JetBrains Mono', monospace" }}>REVEALED TO YOU</p>
-              <p style={{ fontSize: 24, fontWeight: 700, fontFamily: "'Syne', sans-serif", color: "#4ade80" }}>{totalMatches}</p>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, position: "relative" }}>
+            <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 16, padding: "20px 24px", transition: "transform 0.3s ease" }}>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.3)", marginBottom: 8, fontFamily: "'Space Mono', monospace", fontWeight: 700 }}>REVEALED TO YOU</p>
+              <p style={{ fontSize: 32, fontWeight: 700, fontFamily: "'Outfit', sans-serif", color: "#4ade80", textShadow: "0 0 12px rgba(74,222,128,0.3)" }}>{totalMatches}</p>
             </div>
-            <div style={{ background: "rgba(255,255,255,0.04)", borderRadius: 10, padding: "12px 14px" }}>
-              <p style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", marginBottom: 4, fontFamily: "'JetBrains Mono', monospace" }}>HIDDEN FROM PLATFORM</p>
-              <p style={{ fontSize: 24, fontWeight: 700, fontFamily: "'Syne', sans-serif", color: "rgba(255,255,255,0.35)" }}>{totalContacts - totalMatches}</p>
+            <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 16, padding: "20px 24px" }}>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.3)", marginBottom: 8, fontFamily: "'Space Mono', monospace", fontWeight: 700 }}>HIDDEN FROM PLATFORM</p>
+              <p style={{ fontSize: 32, fontWeight: 700, fontFamily: "'Outfit', sans-serif", color: "rgba(255,255,255,0.35)" }}>{totalContacts - totalMatches}</p>
             </div>
           </div>
         </div>

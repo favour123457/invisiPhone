@@ -54,35 +54,35 @@ export default function FriendsPanel() {
         <div>
             <style>{`@keyframes fadeSlide { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }`}</style>
 
-            <div style={{ marginBottom: 28 }}>
-                <h2 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: 28, letterSpacing: "-0.02em", marginBottom: 8 }}>
+            <div style={{ marginBottom: 40 }}>
+                <h2 style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 800, fontSize: 36, letterSpacing: "-0.03em", marginBottom: 12 }}>
                     Your friends
                 </h2>
-                <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 14, lineHeight: 1.7 }}>
+                <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 17, lineHeight: 1.6 }}>
                     Contacts you&apos;ve discovered on InvisiPhone. Stored locally — only visible to you.
                 </p>
             </div>
 
             {friends.length === 0 ? (
-                <div style={{ textAlign: "center", padding: "56px 24px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 16 }}>
-                    <div style={{ width: 48, height: 48, borderRadius: 14, background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.2)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(124,58,237,0.7)" strokeWidth="1.5">
+                <div style={{ textAlign: "center", padding: "80px 32px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 20 }}>
+                    <div style={{ width: 64, height: 64, borderRadius: 18, background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.2)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px" }}>
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(124,58,237,0.7)" strokeWidth="1.5">
                             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
                         </svg>
                     </div>
-                    <p style={{ fontSize: 15, color: "rgba(255,255,255,0.4)", marginBottom: 6 }}>No friends saved yet</p>
-                    <p style={{ fontSize: 13, color: "rgba(255,255,255,0.2)", fontFamily: "'JetBrains Mono', monospace" }}>
+                    <p style={{ fontSize: 18, color: "rgba(255,255,255,0.45)", marginBottom: 8, fontWeight: 500 }}>No friends saved yet</p>
+                    <p style={{ fontSize: 14, color: "rgba(255,255,255,0.2)", fontFamily: "'Space Mono', monospace" }}>
                         Run a discovery and save matched contacts
                     </p>
                 </div>
             ) : (
                 <>
                     {/* Count bar */}
-                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-                        <div style={{ background: "rgba(124,58,237,0.15)", border: "1px solid rgba(124,58,237,0.25)", borderRadius: 100, padding: "3px 10px" }}>
-                            <span style={{ fontSize: 12, color: "#a78bfa", fontFamily: "'JetBrains Mono', monospace" }}>{friends.length} friend{friends.length !== 1 ? "s" : ""}</span>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+                        <div style={{ background: "rgba(124,58,237,0.15)", border: "1px solid rgba(124,58,237,0.25)", borderRadius: 100, padding: "4px 14px" }}>
+                            <span style={{ fontSize: 13, color: "#a78bfa", fontFamily: "'Space Mono', monospace", fontWeight: 700 }}>{friends.length} friend{friends.length !== 1 ? "s" : ""}</span>
                         </div>
-                        <span style={{ fontSize: 12, color: "rgba(255,255,255,0.2)" }}>· stored locally</span>
+                        <span style={{ fontSize: 13, color: "rgba(255,255,255,0.2)", fontWeight: 500 }}>· stored locally</span>
                     </div>
 
                     <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
