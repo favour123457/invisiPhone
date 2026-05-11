@@ -35,7 +35,7 @@ export default function RegisterPanel({ onRegistered }: RegisterPanelProps) {
       <div style={{ marginBottom: 40 }}>
         <p style={{ fontSize: 13, color: "#7c3aed", fontFamily: "'Space Mono', monospace", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 12, fontWeight: 700 }}>Step 1 of 1</p>
         <h2 style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 800, fontSize: 36, letterSpacing: "-0.03em", marginBottom: 12 }}>Join InvisiPhone</h2>
-        <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 17, lineHeight: 1.6 }}>Register your wallet on-chain once. Your contacts can then discover you privately — without revealing your full address book.</p>
+        <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 17, lineHeight: 1.6 }}>Register your wallet on-chain once. Your contacts can then discover you privately, without revealing your full address book.</p>
       </div>
 
       {/* How it works */}
@@ -44,7 +44,7 @@ export default function RegisterPanel({ onRegistered }: RegisterPanelProps) {
         {[
           ["01", "You register your wallet address on Solana"],
           ["02", "Your contacts run an encrypted comparison"],
-          ["03", "Only matches are revealed — non-matches stay hidden"],
+          ["03", "Only matches are revealed. Non-matches stay hidden"],
         ].map(([n, t]) => (
           <div key={n} style={{ display: "flex", gap: 16, padding: "14px 0", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
             <span style={{ ...s.mono, color: "rgba(124,58,237,0.7)", flexShrink: 0 }}>{n}</span>

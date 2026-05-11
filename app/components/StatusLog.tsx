@@ -3,12 +3,12 @@
 import { DiscoveryStep } from "@/hooks/useContactDiscovery";
 
 const STEPS: { key: DiscoveryStep; label: string; detail: string }[] = [
-  { key: "fetching_registered", label: "Fetching registered users", detail: "Reading on-chain registry — no private data exposed" },
+  { key: "fetching_registered", label: "Fetching registered users", detail: "Reading on-chain registry. No private data exposed." },
   { key: "encrypting_contacts", label: "Encrypting your contacts locally", detail: "Private key generated in your browser. Never transmitted." },
-  { key: "sending_transaction", label: "Submitting to Solana", detail: "Only encrypted ciphertexts hit the chain — no plaintext" },
+  { key: "sending_transaction", label: "Submitting to Solana", detail: "Only encrypted ciphertexts hit the chain. No plaintext." },
   { key: "waiting_arcium", label: "Arcium MXE computing privately", detail: "Arx nodes compare encrypted sets. No single node sees your contacts." },
   { key: "decrypting", label: "Decrypting result with your key", detail: "Only you can read this. Not Solana. Not Arcium." },
-  { key: "done", label: "Complete", detail: "The platform learned nothing about your non-matching contacts" },
+  { key: "done", label: "Complete", detail: "The platform learned nothing about your non-matching contacts." },
 ];
 
 function getStatus(key: DiscoveryStep, current: DiscoveryStep): "done" | "active" | "waiting" {

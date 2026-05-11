@@ -54,12 +54,12 @@ export default function FriendsPanel() {
         <div>
             <style>{`@keyframes fadeSlide { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }`}</style>
 
-            <div style={{ marginBottom: 40 }}>
+            <div style={{ marginBottom: 40, padding: "0 4px" }}>
                 <h2 style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 800, fontSize: 36, letterSpacing: "-0.03em", marginBottom: 12 }}>
                     Your friends
                 </h2>
                 <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 17, lineHeight: 1.6 }}>
-                    Contacts you&apos;ve discovered on InvisiPhone. Stored locally — only visible to you.
+                    Contacts you have discovered on InvisiPhone. Stored locally, only visible to you.
                 </p>
             </div>
 

@@ -60,11 +60,11 @@ export default function DiscoverPanel({ onFriendsSaved }: DiscoverPanelProps) {
   }
 
   return (
-    <div style={{ animation: "revealUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1)" }}>
-      <div style={{ marginBottom: 44 }}>
+    <div style={{ animation: "revealUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1)", maxWidth: "100%", width: "100%" }}>
+      <div style={{ marginBottom: 44, padding: "0 4px" }}>
         <h2 style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 800, fontSize: 40, letterSpacing: "-0.03em", marginBottom: 12 }}>Discover contacts</h2>
         <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 18, lineHeight: 1.6 }}>
-          Paste Solana wallet addresses below. We&apos;ll find which ones are on InvisiPhone — without the platform ever seeing your full list.
+          Paste Solana wallet addresses below. We will find which ones are on InvisiPhone, without the platform ever seeing your full list.
         </p>
       </div>
 

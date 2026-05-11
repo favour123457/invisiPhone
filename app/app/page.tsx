@@ -45,6 +45,7 @@ export default function Home() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&family=Space+Mono:wght@400;700&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { overflow-x: hidden; width: 100%; position: relative; }
         ::selection { background: rgba(124,58,237,0.3); }
         .wallet-btn { background: rgba(124,58,237,0.15) !important; border: 1px solid rgba(124,58,237,0.4) !important; border-radius: 12px !important; font-family: 'Inter', sans-serif !important; font-size: 14px !important; font-weight: 500 !important; color: #c4b5fd !important; padding: 10px 20px !important; transition: all 0.2s !important; }
         .wallet-btn:hover { background: rgba(124,58,237,0.25) !important; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(124,58,237,0.2) !important; }
@@ -71,21 +72,36 @@ export default function Home() {
         }
         .animated-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124,58,237,0.3); }
         .animated-btn:active { transform: translateY(0); }
+
+        @media (max-width: 640px) {
+            .wallet-btn { padding: 8px 12px !important; font-size: 12px !important; }
+            .grid-bg { padding: 60px 16px 40px !important; }
+            h1 { font-size: 32px !important; }
+        }
       `}</style>
 
       {/* Nav */}
-      <nav style={{ borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "0 24px", height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", backdropFilter: "blur(12px)", position: "sticky", top: 0, zIndex: 10, background: "rgba(7,7,16,0.8)" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ width: 32, height: 32, borderRadius: 10, background: "linear-gradient(135deg, #7c3aed, #4f46e5)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 12px rgba(124,58,237,0.3)" }}>
-            <svg width="16" height="16" viewBox="0 0 14 14" fill="none">
-              <circle cx="7" cy="7" r="2.5" fill="white" />
-              <circle cx="7" cy="7" r="5.5" stroke="white" strokeWidth="1" strokeDasharray="2 2" />
-            </svg>
+      <nav style={{
+        padding: "20px 24px",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        borderBottom: "1px solid rgba(255,255,255,0.06)",
+        position: "sticky",
+        top: 0,
+        zIndex: 100,
+        backdropFilter: "blur(12px)",
+        background: "rgba(10,10,10,0.8)"
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div style={{ width: 32, height: 32, borderRadius: 8, background: "linear-gradient(135deg, #7c3aed, #4f46e5)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
           </div>
           <span style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em" }}>InvisiPhone</span>
-          <span style={{ fontSize: 13, color: "rgba(255,255,255,0.25)", marginLeft: 4, fontFamily: "'Space Mono', monospace" }}>v0.1</span>
         </div>
-        <WalletMultiButton className="wallet-btn" />
+        <div className="wallet-adapter-dropdown">
+          <WalletMultiButton className="wallet-btn" />
+        </div>
       </nav>
 
       {/* Hero — only shown when not in app state */}
@@ -99,7 +115,7 @@ export default function Home() {
             Private contact<br /><span className="gradient-text">discovery</span> on Solana
           </h1>
           <p style={{ color: "rgba(255,255,255,0.45)", maxWidth: 560, margin: "0 auto", fontSize: 20, lineHeight: 1.6, fontWeight: 400, animation: "fadeIn 1.2s ease" }}>
-            Find which of your contacts are on InvisiPhone — without revealing your address book to anyone. Encrypted computation, zero knowledge.
+            Find which of your contacts are on InvisiPhone without ever revealing your address book to anyone. Encrypted computation, zero knowledge.
           </p>
         </div>
       )}
