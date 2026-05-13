@@ -29,14 +29,16 @@ function timeAgo(ts: number): string {
 }
 
 export default function FriendsPanel() {
-    const { getFriends, removeFriend } = useFriends();
+    const { friends: sourceFriends, removeFriend } = useFriends();
     const [friends, setFriends] = useState<Friend[]>([]);
     const [copied, setCopied] = useState<string | null>(null);
     const [confirmRemove, setConfirmRemove] = useState<string | null>(null);
 
     useEffect(() => {
-        setFriends(getFriends().sort((a, b) => b.discoveredAt - a.discoveredAt));
-    }, [getFriends]);
+        if (sourceFriends) {
+            setFriends([...sourceFriends].sort((a, b) => b.discoveredAt - a.discoveredAt));
+        }
+    }, [sourceFriends]);
 
     const handleCopy = (wallet: string) => {
         navigator.clipboard.writeText(wallet);

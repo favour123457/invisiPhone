@@ -26,7 +26,7 @@ export default function Home() {
       setIsRegistered(false);
       setLoading(false);
     }
-  }, [connected, publicKey]);
+  }, [connected, publicKey, checkRegistration]);
 
   // Update registration state when status changes to 'done' (from RegisterPanel)
   useEffect(() => {

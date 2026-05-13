@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { DiscoveryStep } from "@/hooks/useContactDiscovery";
 import { LockIcon, CheckIcon } from "./icons";
 
@@ -36,7 +36,7 @@ function formatClock(ms: number) {
 
 export default function StatusLog({ step }: { step: DiscoveryStep }) {
   const [started] = useState(() => Date.now());
-  const [tick, setTick] = useState(0);
+  const [, setTick] = useState(0);
 
   useEffect(() => {
     if (step === "idle" || step === "error" || step === "done") return;
@@ -44,7 +44,7 @@ export default function StatusLog({ step }: { step: DiscoveryStep }) {
     return () => clearInterval(id);
   }, [step]);
 
-  const elapsedLabel = useMemo(() => formatClock(Date.now() - started), [started, tick, step]);
+  const elapsedLabel = formatClock(Date.now() - started);
 
   if (step === "idle") return null;
 
@@ -92,13 +92,12 @@ export default function StatusLog({ step }: { step: DiscoveryStep }) {
               </div>
               <div className="min-w-0 flex-1">
                 <p
-                  className={`text-[15px] font-semibold leading-snug transition-colors duration-300 ease-in-out md:text-[17px] ${
-                    status === "done"
-                      ? "text-zinc-500"
-                      : status === "active"
-                        ? "text-white"
-                        : "text-zinc-600"
-                  }`}
+                  className={`text-[15px] font-semibold leading-snug transition-colors duration-300 ease-in-out md:text-[17px] ${status === "done"
+                    ? "text-zinc-500"
+                    : status === "active"
+                      ? "text-white"
+                      : "text-zinc-600"
+                    }`}
                 >
                   {s.label}
                 </p>

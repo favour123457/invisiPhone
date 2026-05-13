@@ -62,7 +62,7 @@ export function useChat(contactWallet: string | null) {
           return;
         }
 
-        const msgs: Message[] = Object.entries(data).map(([id, val]: [string, Record<string, unknown>]) => ({
+        const msgs: Message[] = Object.entries(data).map(([id, val]: any) => ({
           id,
           sender: String(val.sender ?? ""),
           text: String(val.text ?? ""),
