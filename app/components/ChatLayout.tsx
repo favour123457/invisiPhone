@@ -147,9 +147,10 @@ export default function ChatLayout({ matchedWallets }: ChatLayoutProps) {
   const currentContact = contacts.find((c) => c.wallet === activeContact);
 
   return (
-    <div className="flex h-[calc(100vh-200px)] w-full min-w-0 flex-col overflow-hidden border border-white/10 bg-[#0d0d16] md:h-[min(650px,calc(100vh-120px))] md:flex-row">
+    <div className="flex h-full w-full min-w-0 flex-col overflow-hidden bg-[#0d0d16] md:flex-row">
       <div
         className={`${activeContact ? "hidden md:flex" : "flex"} flex w-full shrink-0 flex-col border-r border-white/5 bg-zinc-950/20 md:w-52 md:min-w-[13rem] lg:w-56`}
+
       >
         <header className="border-b border-white/5 px-3 py-3 md:px-4">
           <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-zinc-600">Chats</h3>
@@ -183,11 +184,10 @@ export default function ChatLayout({ matchedWallets }: ChatLayoutProps) {
               key={contact.wallet}
               type="button"
               onClick={() => setActiveContact(contact.wallet)}
-              className={`flex w-full items-center gap-2 border-l-2 px-2 py-2.5 text-left transition-colors duration-150 ease-in-out md:gap-3 md:px-3 ${
-                activeContact === contact.wallet
+              className={`flex w-full items-center gap-2 border-l-2 px-2 py-2.5 text-left transition-colors duration-150 ease-in-out md:gap-3 md:px-3 ${activeContact === contact.wallet
                   ? "border-orange-500 bg-orange-600/10"
                   : "border-transparent hover:bg-white/5"
-              }`}
+                }`}
             >
               <div className="flex h-9 w-9 shrink-0 items-center justify-center border border-white/5 bg-zinc-900 text-xs font-bold text-orange-400 md:h-10 md:w-10 md:text-sm">
                 {contact.name.slice(0, 1).toUpperCase()}
@@ -277,9 +277,8 @@ export default function ChatLayout({ matchedWallets }: ChatLayoutProps) {
                     className={`motion-safe:animate-[msgIn_150ms_ease-in-out_forwards] flex flex-col ${isOwn ? "items-end" : "items-start"}`}
                   >
                     <div
-                      className={`max-w-[90%] border px-3 py-2 text-sm leading-relaxed sm:max-w-[75%] md:max-w-[70%] ${
-                        isOwn ? "border-orange-600/40 bg-orange-600 text-white" : "border-white/10 bg-white/5 text-zinc-200"
-                      }`}
+                      className={`max-w-[90%] border px-3 py-2 text-sm leading-relaxed sm:max-w-[75%] md:max-w-[70%] ${isOwn ? "border-orange-600/40 bg-orange-600 text-white" : "border-white/10 bg-white/5 text-zinc-200"
+                        }`}
                     >
                       {msg.text}
                     </div>
