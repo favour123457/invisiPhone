@@ -10,3 +10,5 @@ build
 encrypted-ixs/src/main.rs
 artifacts/
 .kiro
+.vscode/
+vercel.json

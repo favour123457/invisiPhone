@@ -79,7 +79,7 @@ export default function NicknameModal({ wallets, onDone }: NicknameModalProps) {
                     {pending.length > 1 && (
                         <div style={{ display: "flex", gap: 6, justifyContent: "center", marginBottom: 24 }}>
                             {pending.map((_, i) => (
-                                <div key={i} style={{ width: 6, height: 6, borderRadius: "50%", background: i <= index ? "#7c3aed" : "rgba(255,255,255,0.1)", transition: "background 0.3s" }} />
+                                <div key={i} style={{ width: 6, height: 6, borderRadius: "50%", background: i <= index ? "#ea580c" : "rgba(255,255,255,0.1)", transition: "background 0.3s" }} />
                             ))}
                         </div>
                     )}
@@ -122,7 +122,7 @@ export default function NicknameModal({ wallets, onDone }: NicknameModalProps) {
                                     background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)",
                                     color: "white", fontSize: 16, fontFamily: "'Inter', sans-serif", outline: "none",
                                 }}
-                                onFocus={e => { e.target.style.borderColor = "rgba(124,58,237,0.5)"; }}
+                                onFocus={e => { e.target.style.borderColor = "rgba(234,88,12,0.5)"; }}
                                 onBlur={e => { e.target.style.borderColor = "rgba(255,255,255,0.1)"; }}
                             />
 
@@ -131,11 +131,11 @@ export default function NicknameModal({ wallets, onDone }: NicknameModalProps) {
                                 disabled={!name.trim()}
                                 style={{
                                     width: "100%", padding: "16px 0", borderRadius: 14, border: "none",
-                                    background: name.trim() ? "#7c3aed" : "rgba(255,255,255,0.06)",
+                                    background: name.trim() ? "#ea580c" : "rgba(255,255,255,0.06)",
                                     color: name.trim() ? "white" : "rgba(255,255,255,0.25)",
                                     fontSize: 16, fontWeight: 700, fontFamily: "'Inter', sans-serif",
                                     cursor: name.trim() ? "pointer" : "not-allowed", marginBottom: 12, transition: "all 0.2s",
-                                    boxShadow: name.trim() ? "0 4px 12px rgba(124,58,237,0.2)" : "none",
+                                    boxShadow: name.trim() ? "0 4px 12px rgba(234,88,12,0.25)" : "none",
                                 }}
                             >
                                 Save friend

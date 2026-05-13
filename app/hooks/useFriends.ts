@@ -1,61 +1,69 @@
-"use client";
-
-import { useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { ref, onValue, set, remove, get } from "firebase/database";
+import { db } from "@/lib/firebase";
 
 export interface Friend {
     wallet: string;
     nickname: string;
-    discoveredAt: number; // timestamp
-}
-
-function storageKey(ownerWallet: string) {
-    return `invisiphone:friends:${ownerWallet}`;
+    discoveredAt: number;
 }
 
 export function useFriends() {
     const { publicKey } = useWallet();
+    const [friends, setFriends] = useState<Friend[]>([]);
+    const [loading, setLoading] = useState(true);
 
-    const getFriends = useCallback((): Friend[] => {
-        if (!publicKey || typeof window === "undefined") return [];
-        try {
-            const raw = localStorage.getItem(storageKey(publicKey.toString()));
-            return raw ? JSON.parse(raw) : [];
-        } catch {
-            return [];
+    // Sync from Firebase
+    useEffect(() => {
+        if (!publicKey) {
+            setFriends([]);
+            setLoading(false);
+            return;
         }
+
+        const friendsRef = ref(db, `users/${publicKey.toString()}/friends`);
+        const unsubscribe = onValue(friendsRef, (snapshot) => {
+            const data = snapshot.val();
+            if (!data) {
+                setFriends([]);
+            } else {
+                const list: Friend[] = Object.entries(data).map(([wallet, val]: any) => ({
+                    wallet,
+                    nickname: val.nickname,
+                    discoveredAt: val.discoveredAt,
+                }));
+                setFriends(list);
+            }
+            setLoading(false);
+        });
+
+        return () => unsubscribe();
     }, [publicKey]);
 
-    const saveFriend = useCallback((wallet: string, nickname: string) => {
-        if (!publicKey || typeof window === "undefined") return;
-        const key = storageKey(publicKey.toString());
-        const existing = (() => {
-            try { return JSON.parse(localStorage.getItem(key) || "[]") as Friend[]; }
-            catch { return [] as Friend[]; }
-        })();
-        // Upsert — update nickname if wallet already saved
-        const filtered = existing.filter(f => f.wallet !== wallet);
-        const updated: Friend[] = [...filtered, { wallet, nickname: nickname.trim() || shortAddr(wallet), discoveredAt: Date.now() }];
-        localStorage.setItem(key, JSON.stringify(updated));
+    const saveFriend = useCallback(async (wallet: string, nickname: string) => {
+        if (!publicKey) return;
+        const friendsRef = ref(db, `users/${publicKey.toString()}/friends/${wallet}`);
+        await set(friendsRef, {
+            nickname: nickname.trim() || shortAddr(wallet),
+            discoveredAt: Date.now(),
+        });
     }, [publicKey]);
 
-    const removeFriend = useCallback((wallet: string) => {
-        if (!publicKey || typeof window === "undefined") return;
-        const key = storageKey(publicKey.toString());
-        const existing = (() => {
-            try { return JSON.parse(localStorage.getItem(key) || "[]") as Friend[]; }
-            catch { return [] as Friend[]; }
-        })();
-        localStorage.setItem(key, JSON.stringify(existing.filter(f => f.wallet !== wallet)));
+    const removeFriend = useCallback(async (wallet: string) => {
+        if (!publicKey) return;
+        const friendsRef = ref(db, `users/${publicKey.toString()}/friends/${wallet}`);
+        await remove(friendsRef);
     }, [publicKey]);
 
     const isAlreadySaved = useCallback((wallet: string): boolean => {
-        return getFriends().some(f => f.wallet === wallet);
-    }, [getFriends]);
+        return friends.some(f => f.wallet === wallet);
+    }, [friends]);
 
-    return { getFriends, saveFriend, removeFriend, isAlreadySaved };
+    return { friends, loading, saveFriend, removeFriend, isAlreadySaved };
 }
 
 export function shortAddr(a: string) {
+    if (!a) return "";
     return `${a.slice(0, 6)}...${a.slice(-6)}`;
 }

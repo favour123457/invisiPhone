@@ -2,20 +2,11 @@
 
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useRegister } from "@/hooks/useRegister";
+import { shortAddr } from "@/hooks/useFriends";
 
 interface RegisterPanelProps {
   onRegistered: () => void;
 }
-
-const s = {
-  card: { background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 20, padding: "28px 32px" } as React.CSSProperties,
-  label: { fontSize: 13, color: "rgba(255,255,255,0.3)", fontFamily: "'Space Mono', monospace", letterSpacing: "0.08em", textTransform: "uppercase" as const, marginBottom: 12, fontWeight: 700 },
-  mono: { fontFamily: "'Space Mono', monospace", fontSize: 16, fontWeight: 500 },
-  btn: { width: "100%", padding: "18px 0", borderRadius: 14, border: "none", cursor: "pointer", fontSize: 16, fontWeight: 600, fontFamily: "'Inter', sans-serif", transition: "all 0.2s" } as React.CSSProperties,
-  btnPrimary: { background: "#7c3aed", color: "white", boxShadow: "0 4px 12px rgba(124,58,237,0.2)" } as React.CSSProperties,
-  btnDisabled: { background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.3)", cursor: "not-allowed" } as React.CSSProperties,
-  btnSecondary: { background: "transparent", border: "1px solid rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.6)", marginTop: 12 } as React.CSSProperties,
-};
 
 export default function RegisterPanel({ onRegistered }: RegisterPanelProps) {
   const { publicKey } = useWallet();
@@ -31,63 +22,64 @@ export default function RegisterPanel({ onRegistered }: RegisterPanelProps) {
   };
 
   return (
-    <div>
-      <div style={{ marginBottom: 40 }}>
-        <p style={{ fontSize: 13, color: "#7c3aed", fontFamily: "'Space Mono', monospace", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 12, fontWeight: 700 }}>Step 1 of 1</p>
-        <h2 style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 800, fontSize: 36, letterSpacing: "-0.03em", marginBottom: 12 }}>Join InvisiPhone</h2>
-        <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 17, lineHeight: 1.6 }}>Register your wallet on-chain once. Your contacts can then discover you privately, without revealing your full address book.</p>
+    <div className="animate-in fade-in slide-in-from-bottom-8 duration-700">
+      <div className="mb-10 text-center sm:text-left">
+        <p className="text-[11px] font-bold text-orange-500 uppercase tracking-[0.3em] mb-3">Entrance Protocol</p>
+        <h2 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4 leading-tight">
+          Join the <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-400">Invisible</span> Network
+        </h2>
+        <p className="text-zinc-500 text-lg leading-relaxed max-w-lg">
+          Register your identity on-chain to enable private discovery. One transaction to secure your communications forever.
+        </p>
       </div>
 
-      {/* How it works */}
-      <div style={{ ...s.card, marginBottom: 24 }}>
-        <p style={s.label}>How private discovery works</p>
+      <div className="grid grid-cols-1 gap-4 mb-8">
         {[
-          ["01", "You register your wallet address on Solana"],
-          ["02", "Your contacts run an encrypted comparison"],
-          ["03", "Only matches are revealed. Non-matches stay hidden"],
-        ].map(([n, t]) => (
-          <div key={n} style={{ display: "flex", gap: 16, padding: "14px 0", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-            <span style={{ ...s.mono, color: "rgba(124,58,237,0.7)", flexShrink: 0 }}>{n}</span>
-            <span style={{ fontSize: 16, color: "rgba(255,255,255,0.6)", lineHeight: 1.5, fontWeight: 500 }}>{t}</span>
+          { icon: "🛡️", title: "On-chain Identity", desc: "Your wallet becomes your secure, immutable address." },
+          { icon: "🕶️", title: "Zero Disclosure", desc: "Contacts find you via encrypted proofs. No leaks." },
+        ].map((item, i) => (
+          <div key={i} className="flex gap-4 border border-white/5 bg-white/[0.03] p-5 transition-colors hover:bg-white/[0.05]">
+            <div className="text-2xl mt-1">{item.icon}</div>
+            <div>
+              <h4 className="font-bold text-white text-sm mb-1">{item.title}</h4>
+              <p className="text-xs text-zinc-500 leading-relaxed">{item.desc}</p>
+            </div>
           </div>
         ))}
       </div>
 
-      {/* Wallet display */}
       {publicKey && (
-        <div style={{ ...s.card, marginBottom: 24, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div className="mb-8 flex items-center justify-between border border-white/5 bg-white/[0.02] p-6 group">
           <div>
-            <p style={s.label}>Registering address</p>
-            <p style={{ ...s.mono, color: "rgba(255,255,255,0.8)", fontSize: 16 }}>
-              {publicKey.toString().slice(0, 14)}...{publicKey.toString().slice(-10)}
+            <p className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest mb-1">Authenticated Wallet</p>
+            <p className="text-sm font-mono text-zinc-300 group-hover:text-orange-400 transition-colors">
+              {shortAddr(publicKey.toString())}
             </p>
           </div>
-          <div style={{ width: 44, height: 44, borderRadius: 12, background: "rgba(124,58,237,0.15)", border: "1px solid rgba(124,58,237,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="1.5">
-              <path d="M20 12V22H4V12" /><path d="M22 7H2v5h20V7z" /><path d="M12 22V7" /><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" /><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" />
-            </svg>
+          <div className="flex h-12 w-12 items-center justify-center border border-orange-500/20 bg-orange-600/10 text-orange-400 shadow-inner">
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
           </div>
         </div>
       )}
 
-      {/* Status */}
       {status === "error" && (
-        <div style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)", borderRadius: 12, padding: "14px 16px", marginBottom: 20, fontSize: 15, color: "#fca5a5", fontWeight: 500 }}>
-          Transaction failed. Check your wallet and try again.
-        </div>
-      )}
-      {done && (
-        <div style={{ background: "rgba(34,197,94,0.08)", border: "1px solid rgba(34,197,94,0.2)", borderRadius: 12, padding: "14px 16px", marginBottom: 20, fontSize: 15, color: "#86efac", fontWeight: 500 }}>
-          {status === "already_registered" ? "You're already registered." : "Registered successfully."}
+        <div className="mb-6 border border-red-500/20 bg-red-500/10 p-4 text-xs font-medium text-red-400 animate-shake">
+          Transmission failed. Ensure you have enough SOL and try again.
         </div>
       )}
 
       <button
         onClick={done ? onRegistered : handleRegister}
         disabled={busy}
-        style={{ ...s.btn, ...(busy ? s.btnDisabled : s.btnPrimary) }}
+        className={`w-full border py-5 font-bold text-lg transition-colors duration-300 relative overflow-hidden group shadow-xl ${busy
+            ? 'bg-white/5 text-zinc-700 cursor-not-allowed'
+            : 'bg-orange-600 text-white hover:bg-orange-500 active:scale-[0.98] shadow-orange-600/20'
+          }`}
       >
-        {busy ? (status === "sending" ? "Sending transaction..." : "Confirming...") : done ? "Continue to Discover →" : "Register on InvisiPhone"}
+        <span className="relative z-10">
+          {busy ? (status === "sending" ? "Initiating Protocol..." : "Verifying Block...") : done ? "Enter Network →" : "Register On-Chain"}
+        </span>
+        {!busy && <div className="absolute inset-0 bg-gradient-to-r from-orange-400/20 to-red-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />}
       </button>
     </div>
   );

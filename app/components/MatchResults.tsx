@@ -35,8 +35,8 @@ export default function MatchResults({ result, onSaveFriends }: MatchResultsProp
 
         {/* Summary card */}
         <div style={{
-          background: "rgba(124,58,237,0.08)",
-          border: "1px solid rgba(124,58,237,0.2)",
+          background: "rgba(234,88,12,0.08)",
+          border: "1px solid rgba(234,88,12,0.25)",
           borderRadius: 24,
           padding: "32px 40px",
           marginBottom: 24,
@@ -59,9 +59,9 @@ export default function MatchResults({ result, onSaveFriends }: MatchResultsProp
                 match{totalMatches !== 1 ? "es" : ""} from {totalContacts} checked
               </p>
             </div>
-            <div style={{ background: "rgba(124,58,237,0.15)", border: "1px solid rgba(124,58,237,0.3)", borderRadius: 100, padding: "8px 16px", display: "flex", alignItems: "center", gap: 10, boxShadow: "0 4px 12px rgba(124,58,237,0.2)" }}>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
-              <span style={{ fontSize: 13, color: "#a78bfa", fontFamily: "'Space Mono', monospace", fontWeight: 700, letterSpacing: "0.05em" }}>PRIVATE DISCOVERY</span>
+            <div style={{ background: "rgba(234,88,12,0.15)", border: "1px solid rgba(234,88,12,0.35)", borderRadius: 100, padding: "8px 16px", display: "flex", alignItems: "center", gap: 10, boxShadow: "0 4px 12px rgba(234,88,12,0.2)" }}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fb923c" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
+              <span style={{ fontSize: 13, color: "#fb923c", fontFamily: "'Space Mono', monospace", fontWeight: 700, letterSpacing: "0.05em" }}>PRIVATE DISCOVERY</span>
             </div>
           </div>
 
@@ -115,7 +115,7 @@ export default function MatchResults({ result, onSaveFriends }: MatchResultsProp
                 onClick={onSaveFriends}
                 style={{
                   width: "100%", padding: "13px 0", borderRadius: 12, border: "none",
-                  background: "rgba(124,58,237,0.2)", color: "#c4b5fd",
+                  background: "rgba(234,88,12,0.2)", color: "#fdba74",
                   fontSize: 14, fontWeight: 500, fontFamily: "'DM Sans', sans-serif",
                   cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
                 }}

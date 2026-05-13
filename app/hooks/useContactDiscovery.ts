@@ -66,6 +66,9 @@ export function useContactDiscovery() {
     setResult(null); setError(null);
 
     try {
+      setStep("generating_keypair");
+      await new Promise((r) => setTimeout(r, 120));
+
       const anchorWallet = {
         publicKey,
         signTransaction: async <T extends anchor.web3.Transaction | anchor.web3.VersionedTransaction>(tx: T): Promise<T> => {
@@ -100,6 +103,9 @@ export function useContactDiscovery() {
       if (!encryptRes.ok) throw new Error((await encryptRes.json()).error || "Encryption failed");
 
       const { c0, c1, c2, r0, r1, r2, r3, r4, contactCount, regCount, userPublicKey, privateKey, nonceLE } = await encryptRes.json();
+
+      setStep("encrypting_registered");
+      await new Promise((r) => setTimeout(r, 80));
 
       setStep("sending_transaction");
       const computationOffset = new anchor.BN(Date.now().toString());

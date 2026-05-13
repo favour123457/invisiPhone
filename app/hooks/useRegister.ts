@@ -93,5 +93,28 @@ export function useRegister() {
     }
   };
 
-  return { register, status, error };
+  const checkRegistration = async (): Promise<boolean> => {
+    if (!publicKey) return false;
+    try {
+      const provider = new anchor.AnchorProvider(connection, (wallet?.adapter as any) || {}, { commitment: "confirmed" });
+      const program = new anchor.Program(idl as anchor.Idl, provider);
+      const [registeredUsersPDA] = anchor.web3.PublicKey.findProgramAddressSync([REGISTERED_USERS_SEED], PROGRAM_ID);
+
+      const account = await (program.account as any).registeredUsers.fetch(registeredUsersPDA);
+      const walletBytes = Array.from(publicKey.toBytes());
+
+      // registeredUsers contains a vec of wallet addresses as [u8; 32]
+      // Depending on the IDL, we might need to search it
+      const users = (account as any).users as number[][];
+      const isReg = users.some(u => JSON.stringify(u) === JSON.stringify(walletBytes));
+
+      if (isReg) setStatus("already_registered");
+      return isReg;
+    } catch (err) {
+      console.log("Check registration error (likely not initialized):", err);
+      return false;
+    }
+  };
+
+  return { register, checkRegistration, status, error };
 }
