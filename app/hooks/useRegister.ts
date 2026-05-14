@@ -4,7 +4,7 @@
 // Handles the register_user transaction
 // Web2 equivalent: POST /api/register { wallet: "..." }
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 import * as anchor from "@coral-xyz/anchor";
 import idl from "@/idl/invisi_phone.json";
@@ -31,7 +31,7 @@ export function useRegister() {
   const [status, setStatus] = useState<RegisterStatus>("idle");
   const [error, setError] = useState<string | null>(null);
 
-  const register = async (): Promise<RegisterStatus> => {
+  const register = useCallback(async (): Promise<RegisterStatus> => {
     if (!publicKey || !wallet) return "idle";
     setError(null);
     setStatus("sending");
@@ -91,9 +91,9 @@ export function useRegister() {
         return "error";
       }
     }
-  };
+  }, [publicKey, wallet, connection]);
 
-  const checkRegistration = async (): Promise<boolean> => {
+  const checkRegistration = useCallback(async (): Promise<boolean> => {
     if (!publicKey) return false;
     try {
       const provider = new anchor.AnchorProvider(connection, (wallet?.adapter as any) || {}, { commitment: "confirmed" });
@@ -114,7 +114,7 @@ export function useRegister() {
       console.log("Check registration error (likely not initialized):", err);
       return false;
     }
-  };
+  }, [publicKey, connection, wallet]);
 
   return { register, checkRegistration, status, error };
 }
