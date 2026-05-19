@@ -35,8 +35,8 @@ export default function Sidebar({ activeTab, onTabChange }: SidebarProps) {
     <aside className="hidden w-72 flex-col border-r border-white/5 bg-[#0a0a14] md:flex">
       <div className="border-b border-white/5 p-6">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center border border-orange-600/30 bg-gradient-to-br from-orange-700 to-red-700 text-white shadow-lg shadow-orange-500/20">
-            <PhoneIcon size={22} className="text-white" />
+          <div className="flex h-10 w-10 items-center justify-center border border-orange-500/25 bg-orange-600/15 text-orange-300 shadow-inner">
+            <PhoneIcon size={22} />
           </div>
           <div>
             <h1 className="font-bold tracking-tight text-white">InvisiPhone</h1>

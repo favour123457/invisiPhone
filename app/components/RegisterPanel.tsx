@@ -3,6 +3,7 @@
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useRegister } from "@/hooks/useRegister";
 import { shortAddr } from "@/hooks/useFriends";
+import { EyeOffIcon, ShieldCheckIcon } from "./icons";
 
 interface RegisterPanelProps {
   onRegistered: () => void;
@@ -21,12 +22,25 @@ export default function RegisterPanel({ onRegistered }: RegisterPanelProps) {
     if (finalStatus === "done" || finalStatus === "already_registered") onRegistered();
   };
 
+  const benefits = [
+    {
+      Icon: ShieldCheckIcon,
+      title: "On-chain Identity",
+      desc: "Your wallet becomes your secure, immutable address.",
+    },
+    {
+      Icon: EyeOffIcon,
+      title: "Zero Disclosure",
+      desc: "Contacts find you via encrypted proofs. No leaks.",
+    },
+  ];
+
   return (
     <div className="animate-in fade-in slide-in-from-bottom-8 duration-700">
       <div className="mb-10 text-center sm:text-left">
         <p className="text-[11px] font-bold text-orange-500 uppercase tracking-[0.3em] mb-3">Entrance Protocol</p>
         <h2 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4 leading-tight">
-          Join the <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-400">Invisible</span> Network
+          Join the <span className="text-orange-400">Invisible</span> Network
         </h2>
         <p className="text-zinc-500 text-lg leading-relaxed max-w-lg">
           Register your identity on-chain to enable private discovery. One transaction to secure your communications forever.
@@ -34,15 +48,14 @@ export default function RegisterPanel({ onRegistered }: RegisterPanelProps) {
       </div>
 
       <div className="grid grid-cols-1 gap-4 mb-8">
-        {[
-          { icon: "🛡️", title: "On-chain Identity", desc: "Your wallet becomes your secure, immutable address." },
-          { icon: "🕶️", title: "Zero Disclosure", desc: "Contacts find you via encrypted proofs. No leaks." },
-        ].map((item, i) => (
+        {benefits.map(({ Icon, title, desc }, i) => (
           <div key={i} className="flex gap-4 border border-white/5 bg-white/[0.03] p-5 transition-colors hover:bg-white/[0.05]">
-            <div className="text-2xl mt-1">{item.icon}</div>
+            <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center border border-orange-500/20 bg-orange-600/10 text-orange-400">
+              <Icon size={21} />
+            </div>
             <div>
-              <h4 className="font-bold text-white text-sm mb-1">{item.title}</h4>
-              <p className="text-xs text-zinc-500 leading-relaxed">{item.desc}</p>
+              <h4 className="font-bold text-white text-sm mb-1">{title}</h4>
+              <p className="text-xs text-zinc-500 leading-relaxed">{desc}</p>
             </div>
           </div>
         ))}
@@ -79,7 +92,7 @@ export default function RegisterPanel({ onRegistered }: RegisterPanelProps) {
         <span className="relative z-10">
           {busy ? (status === "sending" ? "Initiating Protocol..." : "Verifying Block...") : done ? "Enter Network →" : "Register On-Chain"}
         </span>
-        {!busy && <div className="absolute inset-0 bg-gradient-to-r from-orange-400/20 to-red-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />}
+        {!busy && <div className="absolute inset-0 bg-white/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />}
       </button>
     </div>
   );

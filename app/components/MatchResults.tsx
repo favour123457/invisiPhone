@@ -35,42 +35,33 @@ export default function MatchResults({ result, onSaveFriends }: MatchResultsProp
 
         {/* Summary card */}
         <div style={{
-          background: "rgba(234,88,12,0.08)",
-          border: "1px solid rgba(234,88,12,0.25)",
-          borderRadius: 24,
+          background: "rgba(255,255,255,0.035)",
+          border: "1px solid rgba(255,255,255,0.08)",
+          borderRadius: 8,
           padding: "32px 40px",
           marginBottom: 24,
           position: "relative",
           overflow: "hidden"
         }}>
-          {/* Subtle shimmer overlay */}
-          <div style={{
-            position: "absolute", inset: 0,
-            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent)",
-            backgroundSize: "200% 100%",
-            animation: "shimmer 3s infinite linear",
-            pointerEvents: "none"
-          }} />
-
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 32, position: "relative" }}>
             <div>
-              <p className="gradient-text" style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 800, fontSize: 64, letterSpacing: "-0.04em", lineHeight: 1 }}>{totalMatches}</p>
+              <p style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 800, fontSize: 64, letterSpacing: 0, lineHeight: 1, color: "#fdba74" }}>{totalMatches}</p>
               <p style={{ fontSize: 16, color: "rgba(255,255,255,0.45)", marginTop: 8, fontWeight: 500 }}>
                 match{totalMatches !== 1 ? "es" : ""} from {totalContacts} checked
               </p>
             </div>
-            <div style={{ background: "rgba(234,88,12,0.15)", border: "1px solid rgba(234,88,12,0.35)", borderRadius: 100, padding: "8px 16px", display: "flex", alignItems: "center", gap: 10, boxShadow: "0 4px 12px rgba(234,88,12,0.2)" }}>
+            <div style={{ background: "rgba(234,88,12,0.12)", border: "1px solid rgba(234,88,12,0.28)", borderRadius: 8, padding: "8px 16px", display: "flex", alignItems: "center", gap: 10 }}>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fb923c" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
               <span style={{ fontSize: 13, color: "#fb923c", fontFamily: "'Space Mono', monospace", fontWeight: 700, letterSpacing: "0.05em" }}>PRIVATE DISCOVERY</span>
             </div>
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, position: "relative" }}>
-            <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 16, padding: "20px 24px", transition: "transform 0.3s ease" }}>
+            <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 8, padding: "20px 24px", transition: "transform 0.3s ease" }}>
               <p style={{ fontSize: 13, color: "rgba(255,255,255,0.3)", marginBottom: 8, fontFamily: "'Space Mono', monospace", fontWeight: 700 }}>REVEALED TO YOU</p>
-              <p style={{ fontSize: 32, fontWeight: 700, fontFamily: "'Outfit', sans-serif", color: "#4ade80", textShadow: "0 0 12px rgba(74,222,128,0.3)" }}>{totalMatches}</p>
+              <p style={{ fontSize: 32, fontWeight: 700, fontFamily: "'Outfit', sans-serif", color: "#4ade80" }}>{totalMatches}</p>
             </div>
-            <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 16, padding: "20px 24px" }}>
+            <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 8, padding: "20px 24px" }}>
               <p style={{ fontSize: 13, color: "rgba(255,255,255,0.3)", marginBottom: 8, fontFamily: "'Space Mono', monospace", fontWeight: 700 }}>HIDDEN FROM PLATFORM</p>
               <p style={{ fontSize: 32, fontWeight: 700, fontFamily: "'Outfit', sans-serif", color: "rgba(255,255,255,0.35)" }}>{totalContacts - totalMatches}</p>
             </div>
@@ -87,7 +78,7 @@ export default function MatchResults({ result, onSaveFriends }: MatchResultsProp
               {matchedWallets.map((wallet, i) => (
                 <div key={wallet} style={{
                   background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.07)",
-                  borderRadius: 14, padding: "14px 16px", display: "flex", alignItems: "center", gap: 14,
+                  borderRadius: 8, padding: "14px 16px", display: "flex", alignItems: "center", gap: 14,
                   animation: `slideUp ${0.3 + i * 0.08}s ease`,
                 }}>
                   <WalletAvatar address={wallet} />
@@ -114,7 +105,7 @@ export default function MatchResults({ result, onSaveFriends }: MatchResultsProp
               <button
                 onClick={onSaveFriends}
                 style={{
-                  width: "100%", padding: "13px 0", borderRadius: 12, border: "none",
+                  width: "100%", padding: "13px 0", borderRadius: 8, border: "none",
                   background: "rgba(234,88,12,0.2)", color: "#fdba74",
                   fontSize: 14, fontWeight: 500, fontFamily: "'DM Sans', sans-serif",
                   cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
@@ -129,7 +120,7 @@ export default function MatchResults({ result, onSaveFriends }: MatchResultsProp
             )}
           </div>
         ) : (
-          <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 14, padding: "28px", textAlign: "center" }}>
+          <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 8, padding: "28px", textAlign: "center" }}>
             <p style={{ fontSize: 15, color: "rgba(255,255,255,0.4)", marginBottom: 6 }}>No matches found</p>
             <p style={{ fontSize: 12, color: "rgba(255,255,255,0.2)", fontFamily: "'JetBrains Mono', monospace" }}>
               The platform learned nothing about who you searched for

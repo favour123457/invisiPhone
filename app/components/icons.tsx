@@ -95,6 +95,35 @@ export function LockIcon({ size = 24, className, ...rest }: IconProps) {
   );
 }
 
+export function ShieldCheckIcon({ size = 24, className, ...rest }: IconProps) {
+  return (
+    <svg {...baseProps(size, className)} {...rest}>
+      <path
+        d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function EyeOffIcon({ size = 24, className, ...rest }: IconProps) {
+  return (
+    <svg {...baseProps(size, className)} {...rest}>
+      <path
+        d="M3 3l18 18M10.6 10.6A2 2 0 0012 14a2 2 0 001.4-.6M9.2 4.2A10.46 10.46 0 0112 4c5 0 9.3 3.1 11 8a12.5 12.5 0 01-3.1 4.7M6.1 6.1A12.5 12.5 0 001 12c1.7 4.9 6 8 11 8a10.8 10.8 0 005.1-1.3"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export function SendIcon({ size = 24, className, ...rest }: IconProps) {
   return (
     <svg {...baseProps(size, className)} {...rest}>

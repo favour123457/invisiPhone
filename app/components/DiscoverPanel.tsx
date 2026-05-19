@@ -154,8 +154,7 @@ export default function DiscoverPanel({ onMatchesFound }: DiscoverPanelProps) {
         </header>
 
         <div className="group relative">
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-orange-700 to-red-700 opacity-20 blur transition duration-500 ease-in-out group-focus-within:opacity-40" />
-          <div className="relative border border-white/10 bg-[#0d0d16] p-6 lg:p-8">
+          <div className="relative border border-white/10 bg-[#0d0d16] p-6 transition-colors duration-200 group-focus-within:border-orange-500/30 lg:p-8">
             <div className="mb-4 flex flex-col gap-3 px-2 sm:flex-row sm:items-center sm:justify-between">
               <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Connectable wallets</span>
               <div className="flex flex-wrap items-center gap-2">
@@ -240,7 +239,7 @@ export default function DiscoverPanel({ onMatchesFound }: DiscoverPanelProps) {
                 className="group border border-white/5 bg-white/[0.03] p-5 transition-colors duration-200 ease-in-out hover:border-orange-500/30"
               >
                 <div className="mb-4 flex items-start justify-between">
-                  <div className="flex h-12 w-12 items-center justify-center border border-white/5 bg-gradient-to-br from-orange-600/20 to-red-700/20 text-lg shadow-inner">
+                  <div className="flex h-12 w-12 items-center justify-center border border-orange-500/15 bg-orange-600/10 text-lg text-orange-200 shadow-inner">
                     {friend.nickname.slice(0, 1).toUpperCase()}
                   </div>
                   <button
